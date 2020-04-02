@@ -5,6 +5,10 @@ const questionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    name: {
+        type: String,
+        default: "Anonymous"
+    },
     options: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'option'
