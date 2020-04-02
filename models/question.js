@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+/* QUESTION SCHEMA */
 const questionSchema = new mongoose.Schema({
     title: {
         type: String,
