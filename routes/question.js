@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const questionController = require('./../../controllers/question');
+const questionController = require('../controllers/question');
 
 /* SHOW QUESTION WITH OPTIONS */
 router.get('/:id', questionController.getQuestion);

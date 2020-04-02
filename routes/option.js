@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const optionController = require('./../../controllers/option');
+const optionController = require('./../controllers/option');
 
 /* ADD VOTE TO AN OPTION */
 router.put('/:id/add_vote', optionController.addVote);
