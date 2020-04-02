@@ -21,7 +21,9 @@ const optionSchema = new mongoose.Schema({
 })
 
 optionSchema.pre('save', function(next){
-    this.linkToVote = config.hostName + "/options/" + this._id + "/add_vote";
+    if(!this.linkToVote){
+        this.linkToVote = config.hostName + "/options/" + this._id + "/add_vote";
+    }
     next();
 })
 

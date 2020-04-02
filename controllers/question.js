@@ -54,7 +54,6 @@ module.exports.deleteQuestion = async (req, res)=>{
         if(!question){
             throw new Error('Something went wrong, Question not Found!!');
         }
-        console.log(question)
         if(question.options.length > 0){
             throw new Error("This question can't be deleted because one of it's options has votes.");
         }
@@ -64,5 +63,19 @@ module.exports.deleteQuestion = async (req, res)=>{
     } catch (e) {
         console.log("Error while deleting Question.")
         return res.json({success: false, message: "Error while deleting Question.", error: e.message});
+    }
+}
+
+/* GET QUESTION */
+module.exports.getQuestion = async (req, res)=>{
+    try {
+        let question = await Question.findById(req.params.id).populate({path: 'options'});
+        if(!question){
+            throw new Error('Something went wrong, Question not Found!!');
+        }
+        res.json({success: true, _id: question._id, Name: question.name, title: question.title, options: question.options});
+    } catch (e) {
+        console.log("Error while getting Question.")
+        return res.json({success: false, message: "Error while getting Question.", error: e.message});
     }
 }
