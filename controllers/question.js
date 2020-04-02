@@ -36,7 +36,7 @@ module.exports.addOption = async (req, res)=>{
         }
         let option = await Option.create({
             text: req.body.text,
-            questionDetails: question
+            questionDetails: question._id
         })
         question.options.push(option);
         question.save();
@@ -49,5 +49,20 @@ module.exports.addOption = async (req, res)=>{
 
 /* DELETE QUESTION */
 module.exports.deleteQuestion = async (req, res)=>{
-    
+    try {
+        let question = await Question.findById(req.params.id).populate({path: 'options', match: {votes: {$gt: 0}}});
+        if(!question){
+            throw new Error('Something went wrong, Question not Found!!');
+        }
+        console.log(question)
+        if(question.options.length > 0){
+            throw new Error("This question can't be deleted because one of it's options has votes.");
+        }
+        await Option.deleteMany({questionDetails: question._id});
+        await question.remove();
+        res.json({success: true, message: "Question and all it's options are deleted."});
+    } catch (e) {
+        console.log("Error while deleting Question.")
+        return res.json({success: false, message: "Error while deleting Question.", error: e.message});
+    }
 }
